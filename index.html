@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hub Vila Olímpia</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        /* Seus estilos CSS aqui */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #1e272e, #485460);
@@ -18,98 +15,43 @@
             text-align: center;
             padding: 20px;
         }
-
-        h1 {
-            color: #f1c40f;
-            margin-bottom: 15px;
-        }
-
+        h1 { color: #f1c40f; margin-bottom: 15px; }
         textarea {
-            width: 100%;
-            height: 180px;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #bdc3c7;
-            border-radius: 8px;
-            background: #2f3640;
-            color: white;
+            width: 100%; height: 180px; padding: 10px;
+            font-size: 14px; border: 1px solid #bdc3c7;
+            border-radius: 8px; background: #2f3640; color: white;
             resize: none;
         }
-
-        .buttons, .motoboy-selector {
-            margin: 15px 0;
-        }
-
+        .buttons, .motoboy-selector { margin: 15px 0; }
         button {
-            border: none;
-            padding: 12px 20px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
-            border-radius: 8px;
+            border: none; padding: 12px 20px; cursor: pointer;
+            font-size: 16px; margin: 5px; border-radius: 8px;
             transition: 0.3s;
         }
-
-        .generate-btn {
-            background: #27ae60;
-            color: white;
-        }
-
-        .generate-btn:hover {
-            background: #219150;
-        }
-
-        .clear-btn {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .clear-btn:hover {
-            background: #c0392b;
-        }
-
-        .whatsapp-btn {
-            background: #25D366;
-            color: white;
-        }
-
-        .maps-btn {
-            background: #0078FF;
-            color: white;
-        }
-
+        .generate-btn { background: #27ae60; color: white; }
+        .generate-btn:hover { background: #219150; }
+        .clear-btn { background: #e74c3c; color: white; }
+        .clear-btn:hover { background: #c0392b; }
+        .whatsapp-btn { background: #25D366; color: white; }
+        .maps-btn { background: #0078FF; color: white; }
         .result {
-            background: #34495e;
-            padding: 15px;
-            margin: 20px auto;
-            width: 100%;
-            max-width: 700px;
-            border-radius: 8px;
+            background: #34495e; padding: 15px; margin: 20px auto;
+            width: 100%; max-width: 700px; border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-
         .atendimento {
-            margin-bottom: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            background: #2d3e50;
-            border-left: 5px solid #f1c40f;
+            margin-bottom: 20px; padding: 15px; border-radius: 5px;
+            background: #2d3e50; border-left: 5px solid #f1c40f;
             word-wrap: break-word;
             transition: background 0.3s;
         }
-
         .atendimento.concluido {
             background: #2ecc71; /* Verde para atendimentos concluídos */
         }
+        .horario { font-weight: bold; color: #e6ff08; font-size: 20px; }
 
-        .horario {
-            font-weight: bold;
-            color: #e6ff08;
-            font-size: 20px;
-        }
-
-        /* Estilização dos botões de navegação */
-        nav {
+          /* Estilização dos botões de navegação */
+          nav {
             margin-bottom: 20px;
             display: flex;
             flex-wrap: wrap;
@@ -131,8 +73,97 @@
             background: #2980b9;
         }
 
-        /* Estilização do menu suspenso */
-        .dropbtn {
+        /* Estilização do botão "Abrir no Maps" */
+        .maps-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 10px;
+            border-radius: 8px;
+            background: #0078FF;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .maps-btn:hover {
+            background: #005bb5;
+        }
+
+        /* Estilização dos botões dos motoboys */
+        .motoboy-selector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* Espaçamento entre as linhas */
+        }
+        .motoboy-line {
+            display: flex;
+            gap: 15px; /* Espaçamento entre os botões */
+        }
+        .motoboy-btn {
+            background: #2f3640;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #bdc3c7;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .motoboy-btn.selecionado {
+            background: #27ae60; /* Verde para motoboys selecionados */
+        }
+
+        /* Espaçamento entre o botão do Maps e o checkbox */
+        .concluido-checkbox {
+            margin-top: 15px; /* Adiciona espaço acima do checkbox */
+        }
+
+        /* Botão de retorno à página inicial */
+        .back-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: #f1c40f;
+            color: #1e272e;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: #e6b800;
+        }
+
+        /* Modal para links externos */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal iframe {
+            width: 90%;
+            height: 80%;
+            border: none;
+            border-radius: 8px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+      /* Estilização do menu suspenso */
+      .dropbtn {
             background-color: #3498db;
             color: white;
             padding: 12px 20px;
@@ -180,86 +211,165 @@
             display: block;
         }
 
-        /* Botão do WhatsApp */
-        .whatsapp-btn {
-            display: inline-block;
-            padding: 10px 15px;
-            margin-top: 20px;
-            border-radius: 8px;
-            background: #25D366;
-            color: white;
-            text-decoration: none;
-            transition: 0.3s;
-        }
+mark {
+        background-color: blue;/* Cor do fundo */
+        color: white; /* Cor do texto */
+        padding: 2px 5px; /* Espaçamento interno */
+        border-radius: 3px; /* Borda arredondada */
+    }
 
-        .whatsapp-btn:hover {
-            background: #1da851;
-        }
+    .whatsapp-btn {
+    display: inline-block;
+    padding: 10px 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    background: #25D366;
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+}
 
-        /* Checkbox de concluído */
-        .concluido-checkbox {
-            margin-top: 15px;
-        }
-
-        /* Modal para links externos */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal iframe {
-            width: 90%;
-            height: 80%;
-            border: none;
-            border-radius: 8px;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #e74c3c;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        /* Estilização dos botões dos motoboys */
-        .motoboy-selector {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px; /* Espaçamento entre as linhas */
-        }
-        .motoboy-line {
-            display: flex;
-            gap: 15px; /* Espaçamento entre os botões */
-        }
-        .motoboy-btn {
-            background: #2f3640;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 1px solid #bdc3c7;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .motoboy-btn.selecionado {
-            background: #27ae60; /* Verde para motoboys selecionados */
-        }
     </style>
-    <!-- Adicione o Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js"></script>
+    <!-- Adicione o SDK do Firebase v9 -->
+    <script type="module">
+        // Importações do Firebase v9
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+        // Configuração do Firebase
+        const firebaseConfig = {
+  apiKey: "AIzaSyCqZuuO_IPimmS4LryUDQUOQiRWzXJA0vE",
+  authDomain: "beep-59458.firebaseapp.com",
+  projectId: "beep-59458",
+  storageBucket: "beep-59458.firebasestorage.app",
+  messagingSenderId: "404180722329",
+  appId: "1:404180722329:web:03629114e0a435263f8e08",
+  measurementId: "G-LE02G3CN6Z"
+};
+
+        // Inicialize o Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Contatos dos motoboys
+        const contatosMotoboys = {
+            "Caique": "5511967268225",
+            "Grazy": "5511957540503",
+            "Jonas": "5511949479030",
+            "Lucas": "5511998969780",
+            "Max": "5511989321702",
+            "Renato": "5511986490822",
+            "Wellington": "5511981858931"
+        };
+
+        // Motoboys selecionados
+        let motoboysSelecionados = [];
+
+        // Função para selecionar motoboy
+        window.selecionarMotoboy = function(nome) {
+            const botao = document.querySelector(`.motoboy-btn[data-nome='${nome}']`);
+            if (motoboysSelecionados.includes(nome)) {
+                motoboysSelecionados = motoboysSelecionados.filter(m => m !== nome);
+                botao.classList.remove('selecionado');
+            } else {
+                motoboysSelecionados.push(nome);
+                botao.classList.add('selecionado');
+            }
+        };
+
+        // Função para gerar roteiro
+        window.gerarRoteiro = function() {
+            let inputText = document.getElementById("inputData").value.trim();
+            if (!inputText) return alert("Cole os agendamentos antes de gerar o roteiro.");
+            if (motoboysSelecionados.length === 0) return alert("Selecione pelo menos um motoboy.");
+            
+            let linhas = inputText.split("\n\n").map(l => l.trim()).filter(l => l !== "");
+            let atendimentos = linhas.map(l => {
+                let horario = l.match(/\d{2}:\d{2}/)[0];
+                let enderecoMatch = l.match(/Endereço: (.*)/);
+                let endereco = enderecoMatch ? enderecoMatch[1] : ""; // Captura o endereço após "Endereço:"
+                return { horario, detalhes: l, endereco };
+            }).sort((a, b) => a.horario.localeCompare(b.horario));
+            
+            let motoboyRoutes = {};
+            let index = 0;
+            for (let atendimento of atendimentos) {
+                let motoboy = motoboysSelecionados[index % motoboysSelecionados.length];
+                if (!motoboyRoutes[motoboy]) motoboyRoutes[motoboy] = [];
+                motoboyRoutes[motoboy].push(atendimento);
+                index++;
+            }
+
+            // Salvar as rotas no Firebase para cada motoboy
+            for (let motoboy in motoboyRoutes) {
+                set(ref(database, `rotas/${motoboy}`), motoboyRoutes[motoboy]);
+            }
+
+            // Exibir as rotas na página
+            let outputDiv = document.getElementById("output");
+            outputDiv.innerHTML = "";
+            for (let motoboy in motoboyRoutes) {
+                let motoboyHTML = `<div class='result'><h3>${motoboy}</h3>`;
+                let whatsappMessage = `Rotas de ${motoboy}:\n\n`; // Mensagem para o WhatsApp
+                
+                motoboyRoutes[motoboy].forEach((rota, i) => {
+                    motoboyHTML += `<div class='atendimento' id='atendimento-${motoboy}-${i}'>
+                        <p><span class='horario'>${rota.horario}</span><br>${rota.detalhes.replace(/\n/g, '<br>')}</p>
+                        <a class='maps-btn' href='https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rota.endereco)}' target='_blank'>Abrir no Maps</a>
+                        <div class='concluido-checkbox'>
+                            <label>
+                                <input type='checkbox' onchange='marcarConcluido("${motoboy}-${i}")'> Concluído
+                            </label>
+                        </div>
+                    </div>`;
+                    whatsappMessage += `${rota.horario} - ${rota.detalhes}\n\n`; // Adiciona a rota à mensagem
+                });
+                
+                // Botão do WhatsApp no final da rota do motoboy
+                motoboyHTML += `<button class='whatsapp-btn' onclick="compartilharWhatsApp('${contatosMotoboys[motoboy]}', '${whatsappMessage.replace(/\n/g, '%0A')}')">Enviar rota para ${motoboy}</button>`;
+                motoboyHTML += `</div>`;
+                outputDiv.innerHTML += motoboyHTML;
+            }
+        };
+
+        // Função para marcar atendimento como concluído
+        window.marcarConcluido = function(id) {
+            let atendimento = document.getElementById(`atendimento-${id}`);
+            if (atendimento) {
+                atendimento.classList.toggle('concluido');
+            }
+        };
+
+        // Função para compartilhar rota via WhatsApp
+        window.compartilharWhatsApp = function(contato, mensagem) {
+            let url = `https://wa.me/${contato}?text=${mensagem}`;
+            window.open(url, '_blank');
+        };
+
+        // Função para limpar o roteiro
+        window.limparRoteiro = function() {
+            document.getElementById("inputData").value = "";
+            document.getElementById("output").innerHTML = "";
+            motoboysSelecionados = [];
+            document.querySelectorAll('.motoboy-btn').forEach(botao => {
+                botao.classList.remove('selecionado');
+            });
+        };
+
+        // Modal para links externos
+        window.abrirModal = function(event) {
+            event.preventDefault();
+            let modal = document.getElementById("modal");
+            let iframe = document.getElementById("modal-iframe");
+            iframe.src = event.target.href;
+            modal.style.display = "flex";
+        };
+
+        window.fecharModal = function() {
+            let modal = document.getElementById("modal");
+            modal.style.display = "none";
+        };
+    </script>
 </head>
 <body>
     <h1>Roteiro Vila Olímpia</h1>
@@ -309,180 +419,14 @@
     
     <div id="output"></div>
 
-    <!-- Botão do WhatsApp para o grupo dos motoboys -->
-    <a class="whatsapp-btn" href="https://chat.whatsapp.com/CdXmHMfS0fT0yIwKNJdTGK" target="_blank">Grupo WhatsApp</a>
+   <!-- Botão do WhatsApp para o grupo dos motoboys -->
+   <a class="whatsapp-btn" href="https://chat.whatsapp.com/CdXmHMfS0fT0yIwKNJdTGK" target="_blank">Grupo WhatsApp</a>
 
     <!-- Modal para links externos -->
     <div class="modal" id="modal">
         <div class="modal-close" onclick="fecharModal()">Fechar</div>
         <iframe id="modal-iframe" src=""></iframe>
     </div>
-    
-    <script>
-        // Configuração do Firebase (substitua com suas credenciais)
-        const firebaseConfig = {
-    apiKey: "AIzaSyCqZuuO_IPimmS4LryUDQUOQiRWzXJA0vE",
-    authDomain: "beep-59458.firebaseapp.com",
-    projectId: "beep-59458",
-    storageBucket: "beep-59458.firebasestorage.app",
-    messagingSenderId: "404180722329",
-    appId: "1:404180722329:web:03629114e0a435263f8e08",
-    measurementId: "G-LE02G3CN6Z"
-    };
-
-        // Inicialize o Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
-        // Contatos dos motoboys
-        const contatosMotoboys = {
-            "Caique": "5511967268225",
-            "Grazy": "5511957540503",
-            "Jonas": "5511949479030",
-            "Lucas": "5511998969780",
-            "Max": "5511989321702",
-            "Renato": "5511986490822",
-            "Wellington": "5511981858931"
-        };
-
-        // Motoboys selecionados
-        let motoboysSelecionados = [];
-
-        // Função para selecionar/deselecionar motoboys
-        function selecionarMotoboy(nome) {
-            const botao = document.querySelector(`.motoboy-btn[data-nome='${nome}']`);
-            if (motoboysSelecionados.includes(nome)) {
-                motoboysSelecionados = motoboysSelecionados.filter(m => m !== nome);
-                botao.classList.remove('selecionado');
-            } else {
-                motoboysSelecionados.push(nome);
-                botao.classList.add('selecionado');
-            }
-        }
-
-        // Função para salvar uma rota no Firebase
-        function salvarRotaNoFirebase(motoboy, horario, detalhes, endereco) {
-            const rotaRef = database.ref(`rotas/${motoboy}`).push();
-            rotaRef.set({
-                horario: horario,
-                detalhes: detalhes,
-                endereco: endereco
-            })
-            .then(() => {
-                console.log("Rota salva com sucesso!");
-            })
-            .catch((error) => {
-                console.error("Erro ao salvar rota:", error);
-            });
-        }
-
-        // Função para carregar as rotas de um motoboy
-        function carregarRotasDoFirebase(motoboy, callback) {
-            const rotasRef = database.ref(`rotas/${motoboy}`);
-            rotasRef.on("value", (snapshot) => {
-                const rotas = [];
-                snapshot.forEach((childSnapshot) => {
-                    rotas.push(childSnapshot.val());
-                });
-                callback(rotas);
-            });
-        }
-
-        // Função para gerar o roteiro
-        async function gerarRoteiro() {
-            let inputText = document.getElementById("inputData").value.trim();
-            if (!inputText) return alert("Cole os agendamentos antes de gerar o roteiro.");
-            if (motoboysSelecionados.length === 0) return alert("Selecione pelo menos um motoboy.");
-            
-            let linhas = inputText.split("\n\n").map(l => l.trim()).filter(l => l !== "");
-            let atendimentos = linhas.map(l => {
-                let horario = l.match(/\d{2}:\d{2}/)[0];
-                let enderecoMatch = l.match(/Endereço: (.*)/);
-                let endereco = enderecoMatch ? enderecoMatch[1] : ""; // Captura o endereço após "Endereço:"
-                return { horario, detalhes: l, endereco };
-            }).sort((a, b) => a.horario.localeCompare(b.horario));
-            
-            let motoboyRoutes = {};
-            let index = 0;
-            for (let atendimento of atendimentos) {
-                let motoboy = motoboysSelecionados[index % motoboysSelecionados.length];
-                if (!motoboyRoutes[motoboy]) motoboyRoutes[motoboy] = [];
-                motoboyRoutes[motoboy].push(atendimento);
-                index++;
-            }
-
-            // Salvar as rotas no Firebase
-            for (let motoboy in motoboyRoutes) {
-                for (let rota of motoboyRoutes[motoboy]) {
-                    await salvarRotaNoFirebase(motoboy, rota.horario, rota.detalhes, rota.endereco);
-                }
-            }
-
-            // Exibir as rotas na página
-            let outputDiv = document.getElementById("output");
-            outputDiv.innerHTML = "";
-            for (let motoboy in motoboyRoutes) {
-                let motoboyHTML = `<div class='result'><h3>${motoboy}</h3>`;
-                let whatsappMessage = `Rotas de ${motoboy}:\n\n`; // Mensagem para o WhatsApp
-                
-                motoboyRoutes[motoboy].forEach((rota, i) => {
-                    motoboyHTML += `<div class='atendimento' id='atendimento-${motoboy}-${i}'>
-                        <p><span class='horario'>${rota.horario}</span><br>${rota.detalhes.replace(/\n/g, '<br>')}</p>
-                        <a class='maps-btn' href='https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rota.endereco)}' target='_blank'>Abrir no Maps</a>
-                        <div class='concluido-checkbox'>
-                            <label>
-                                <input type='checkbox' onchange='marcarConcluido("${motoboy}-${i}")'> Concluído
-                            </label>
-                        </div>
-                    </div>`;
-                    whatsappMessage += `${rota.horario} - ${rota.detalhes}\n\n`; // Adiciona a rota à mensagem
-                });
-                
-                // Botão do WhatsApp no final da rota do motoboy
-                motoboyHTML += `<button class='whatsapp-btn' onclick="compartilharWhatsApp('${contatosMotoboys[motoboy]}', '${whatsappMessage.replace(/\n/g, '%0A')}')">Enviar rota para ${motoboy}</button>`;
-                motoboyHTML += `</div>`;
-                outputDiv.innerHTML += motoboyHTML;
-            }
-        }
-
-        // Função para marcar um atendimento como concluído
-        function marcarConcluido(id) {
-            let atendimento = document.getElementById(`atendimento-${id}`);
-            if (atendimento) {
-                atendimento.classList.toggle('concluido');
-            }
-        }
-
-        // Função para compartilhar rota no WhatsApp
-        function compartilharWhatsApp(contato, mensagem) {
-            let url = `https://wa.me/${contato}?text=${mensagem}`;
-            window.open(url, '_blank');
-        }
-        
-        // Função para limpar as rotas
-        function limparRoteiro() {
-            document.getElementById("inputData").value = "";
-            document.getElementById("output").innerHTML = "";
-            motoboysSelecionados = [];
-            document.querySelectorAll('.motoboy-btn').forEach(botao => {
-                botao.classList.remove('selecionado');
-            });
-        }
-
-        // Modal para links externos
-        function abrirModal(event) {
-            event.preventDefault();
-            let modal = document.getElementById("modal");
-            let iframe = document.getElementById("modal-iframe");
-            iframe.src = event.target.href;
-            modal.style.display = "flex";
-        }
-
-        function fecharModal() {
-            let modal = document.getElementById("modal");
-            modal.style.display = "none";
-        }
-    </script>
 </body>
 </html>
 
