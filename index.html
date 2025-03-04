@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hub Vila Olímpia</title>
     <style>
-        /* Seus estilos CSS aqui */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #1e272e, #485460);
@@ -15,43 +18,98 @@
             text-align: center;
             padding: 20px;
         }
-        h1 { color: #f1c40f; margin-bottom: 15px; }
+
+        h1 {
+            color: #f1c40f;
+            margin-bottom: 15px;
+        }
+
         textarea {
-            width: 100%; height: 180px; padding: 10px;
-            font-size: 14px; border: 1px solid #bdc3c7;
-            border-radius: 8px; background: #2f3640; color: white;
+            width: 100%;
+            height: 180px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #bdc3c7;
+            border-radius: 8px;
+            background: #2f3640;
+            color: white;
             resize: none;
         }
-        .buttons, .motoboy-selector { margin: 15px 0; }
+
+        .buttons, .motoboy-selector {
+            margin: 15px 0;
+        }
+
         button {
-            border: none; padding: 12px 20px; cursor: pointer;
-            font-size: 16px; margin: 5px; border-radius: 8px;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            border-radius: 8px;
             transition: 0.3s;
         }
-        .generate-btn { background: #27ae60; color: white; }
-        .generate-btn:hover { background: #219150; }
-        .clear-btn { background: #e74c3c; color: white; }
-        .clear-btn:hover { background: #c0392b; }
-        .whatsapp-btn { background: #25D366; color: white; }
-        .maps-btn { background: #0078FF; color: white; }
+
+        .generate-btn {
+            background: #27ae60;
+            color: white;
+        }
+
+        .generate-btn:hover {
+            background: #219150;
+        }
+
+        .clear-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .clear-btn:hover {
+            background: #c0392b;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+        }
+
+        .maps-btn {
+            background: #0078FF;
+            color: white;
+        }
+
         .result {
-            background: #34495e; padding: 15px; margin: 20px auto;
-            width: 100%; max-width: 700px; border-radius: 8px;
+            background: #34495e;
+            padding: 15px;
+            margin: 20px auto;
+            width: 100%;
+            max-width: 700px;
+            border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+
         .atendimento {
-            margin-bottom: 20px; padding: 15px; border-radius: 5px;
-            background: #2d3e50; border-left: 5px solid #f1c40f;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background: #2d3e50;
+            border-left: 5px solid #f1c40f;
             word-wrap: break-word;
             transition: background 0.3s;
         }
+
         .atendimento.concluido {
             background: #2ecc71; /* Verde para atendimentos concluídos */
         }
-        .horario { font-weight: bold; color: #e6ff08; font-size: 20px; }
 
-          /* Estilização dos botões de navegação */
-          nav {
+        .horario {
+            font-weight: bold;
+            color: #e6ff08;
+            font-size: 20px;
+        }
+
+        /* Estilização dos botões de navegação */
+        nav {
             margin-bottom: 20px;
             display: flex;
             flex-wrap: wrap;
@@ -73,97 +131,8 @@
             background: #2980b9;
         }
 
-        /* Estilização do botão "Abrir no Maps" */
-        .maps-btn {
-            display: inline-block;
-            padding: 10px 15px;
-            margin-top: 10px;
-            border-radius: 8px;
-            background: #0078FF;
-            color: white;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .maps-btn:hover {
-            background: #005bb5;
-        }
-
-        /* Estilização dos botões dos motoboys */
-        .motoboy-selector {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px; /* Espaçamento entre as linhas */
-        }
-        .motoboy-line {
-            display: flex;
-            gap: 15px; /* Espaçamento entre os botões */
-        }
-        .motoboy-btn {
-            background: #2f3640;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 1px solid #bdc3c7;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .motoboy-btn.selecionado {
-            background: #27ae60; /* Verde para motoboys selecionados */
-        }
-
-        /* Espaçamento entre o botão do Maps e o checkbox */
-        .concluido-checkbox {
-            margin-top: 15px; /* Adiciona espaço acima do checkbox */
-        }
-
-        /* Botão de retorno à página inicial */
-        .back-btn {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            background: #f1c40f;
-            color: #1e272e;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .back-btn:hover {
-            background: #e6b800;
-        }
-
-        /* Modal para links externos */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal iframe {
-            width: 90%;
-            height: 80%;
-            border: none;
-            border-radius: 8px;
-        }
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #e74c3c;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-      /* Estilização do menu suspenso */
-      .dropbtn {
+        /* Estilização do menu suspenso */
+        .dropbtn {
             background-color: #3498db;
             color: white;
             padding: 12px 20px;
@@ -211,30 +180,100 @@
             display: block;
         }
 
-mark {
-        background-color: blue;/* Cor do fundo */
-        color: white; /* Cor do texto */
-        padding: 2px 5px; /* Espaçamento interno */
-        border-radius: 3px; /* Borda arredondada */
-    }
+        /* Botão do WhatsApp */
+        .whatsapp-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
 
-    .whatsapp-btn {
-    display: inline-block;
-    padding: 10px 15px;
-    margin-top: 20px;
-    border-radius: 8px;
-    background: #25D366;
-    color: white;
-    text-decoration: none;
-    transition: 0.3s;
-}
+        .whatsapp-btn:hover {
+            background: #1da851;
+        }
 
+        /* Checkbox de concluído */
+        .concluido-checkbox {
+            margin-top: 15px;
+        }
+
+        /* Modal para links externos */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal iframe {
+            width: 90%;
+            height: 80%;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Estilização dos botões dos motoboys */
+        .motoboy-selector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* Espaçamento entre as linhas */
+        }
+        .motoboy-line {
+            display: flex;
+            gap: 15px; /* Espaçamento entre os botões */
+        }
+        .motoboy-btn {
+            background: #2f3640;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #bdc3c7;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .motoboy-btn.selecionado {
+            background: #27ae60; /* Verde para motoboys selecionados */
+        }
+
+        /* Estilização do botão "Abrir no Maps" */
+        .maps-btn {
+         display: inline-block;
+         padding: 10px 15px;
+         margin-top: 10px;
+         border-radius: 8px;
+         background: #0078FF;
+         color: white;
+         text-decoration: none;
+         transition: 0.3s;
+         } 
     </style>
     <!-- Adicione o SDK do Firebase v9 -->
     <script type="module">
         // Importações do Firebase v9
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
         // Configuração do Firebase
         const firebaseConfig = {
@@ -306,6 +345,11 @@ mark {
             }
 
             // Exibir as rotas na página
+            exibirRotas(motoboyRoutes);
+        };
+
+        // Função para exibir rotas na página
+        function exibirRotas(motoboyRoutes) {
             let outputDiv = document.getElementById("output");
             outputDiv.innerHTML = "";
             for (let motoboy in motoboyRoutes) {
@@ -330,7 +374,21 @@ mark {
                 motoboyHTML += `</div>`;
                 outputDiv.innerHTML += motoboyHTML;
             }
-        };
+        }
+
+        // Função para carregar rotas ao abrir a página
+        function carregarRotas() {
+            const rotasRef = ref(database, 'rotas');
+            onValue(rotasRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    exibirRotas(data);
+                }
+            });
+        }
+
+        // Carregar rotas ao abrir a página
+        carregarRotas();
 
         // Função para marcar atendimento como concluído
         window.marcarConcluido = function(id) {
@@ -429,7 +487,6 @@ mark {
     </div>
 </body>
 </html>
-
 
 
 
