@@ -256,19 +256,10 @@
         .motoboy-btn.selecionado {
             background: #27ae60; /* Verde para motoboys selecionados */
         }
-
-        /* Estilização do botão "Abrir no Maps" */
-        .maps-btn {
-         display: inline-block;
-         padding: 10px 15px;
-         margin-top: 10px;
-         border-radius: 8px;
-         background: #0078FF;
-         color: white;
-         text-decoration: none;
-         transition: 0.3s;
-         } 
     </style>
+    <!-- Adicione o Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js"></script>
 </head>
 <body>
     <h1>Roteiro Vila Olímpia</h1>
@@ -298,7 +289,6 @@
     <textarea id="inputData" placeholder="Cole os agendamentos aqui..."></textarea>
     
     <div class="motoboy-selector">
-        <p><mark style="background-color: #3498db; color: white; padding: 2px 5px; border-radius: 4px;">Selecione os motoboys</mark></p>
         <div class="motoboy-line">
             <div class="motoboy-btn" data-nome="Caique" onclick="selecionarMotoboy('Caique')">Caique</div>
             <div class="motoboy-btn" data-nome="Grazy" onclick="selecionarMotoboy('Grazy')">Grazy</div>
@@ -319,8 +309,8 @@
     
     <div id="output"></div>
 
-   <!-- Botão do WhatsApp para o grupo dos motoboys -->
-   <a class="whatsapp-btn" href="https://chat.whatsapp.com/CdXmHMfS0fT0yIwKNJdTGK" target="_blank">Grupo WhatsApp</a>
+    <!-- Botão do WhatsApp para o grupo dos motoboys -->
+    <a class="whatsapp-btn" href="https://chat.whatsapp.com/CdXmHMfS0fT0yIwKNJdTGK" target="_blank">Grupo WhatsApp</a>
 
     <!-- Modal para links externos -->
     <div class="modal" id="modal">
@@ -329,6 +319,21 @@
     </div>
     
     <script>
+        // Configuração do Firebase (substitua com suas credenciais)
+        const firebaseConfig = {
+    apiKey: "AIzaSyCqZuuO_IPimmS4LryUDQUOQiRWzXJA0vE",
+    authDomain: "beep-59458.firebaseapp.com",
+    projectId: "beep-59458",
+    storageBucket: "beep-59458.firebasestorage.app",
+    messagingSenderId: "404180722329",
+    appId: "1:404180722329:web:03629114e0a435263f8e08",
+    measurementId: "G-LE02G3CN6Z"
+    };
+
+        // Inicialize o Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         // Contatos dos motoboys
         const contatosMotoboys = {
             "Caique": "5511967268225",
@@ -343,6 +348,7 @@
         // Motoboys selecionados
         let motoboysSelecionados = [];
 
+        // Função para selecionar/deselecionar motoboys
         function selecionarMotoboy(nome) {
             const botao = document.querySelector(`.motoboy-btn[data-nome='${nome}']`);
             if (motoboysSelecionados.includes(nome)) {
@@ -354,7 +360,36 @@
             }
         }
 
-        function gerarRoteiro() {
+        // Função para salvar uma rota no Firebase
+        function salvarRotaNoFirebase(motoboy, horario, detalhes, endereco) {
+            const rotaRef = database.ref(`rotas/${motoboy}`).push();
+            rotaRef.set({
+                horario: horario,
+                detalhes: detalhes,
+                endereco: endereco
+            })
+            .then(() => {
+                console.log("Rota salva com sucesso!");
+            })
+            .catch((error) => {
+                console.error("Erro ao salvar rota:", error);
+            });
+        }
+
+        // Função para carregar as rotas de um motoboy
+        function carregarRotasDoFirebase(motoboy, callback) {
+            const rotasRef = database.ref(`rotas/${motoboy}`);
+            rotasRef.on("value", (snapshot) => {
+                const rotas = [];
+                snapshot.forEach((childSnapshot) => {
+                    rotas.push(childSnapshot.val());
+                });
+                callback(rotas);
+            });
+        }
+
+        // Função para gerar o roteiro
+        async function gerarRoteiro() {
             let inputText = document.getElementById("inputData").value.trim();
             if (!inputText) return alert("Cole os agendamentos antes de gerar o roteiro.");
             if (motoboysSelecionados.length === 0) return alert("Selecione pelo menos um motoboy.");
@@ -376,9 +411,11 @@
                 index++;
             }
 
-            // Salvar as rotas no localStorage para cada motoboy
+            // Salvar as rotas no Firebase
             for (let motoboy in motoboyRoutes) {
-                localStorage.setItem(`rotas_${motoboy}`, JSON.stringify(motoboyRoutes[motoboy]));
+                for (let rota of motoboyRoutes[motoboy]) {
+                    await salvarRotaNoFirebase(motoboy, rota.horario, rota.detalhes, rota.endereco);
+                }
             }
 
             // Exibir as rotas na página
@@ -408,6 +445,7 @@
             }
         }
 
+        // Função para marcar um atendimento como concluído
         function marcarConcluido(id) {
             let atendimento = document.getElementById(`atendimento-${id}`);
             if (atendimento) {
@@ -415,11 +453,13 @@
             }
         }
 
+        // Função para compartilhar rota no WhatsApp
         function compartilharWhatsApp(contato, mensagem) {
             let url = `https://wa.me/${contato}?text=${mensagem}`;
             window.open(url, '_blank');
         }
         
+        // Função para limpar as rotas
         function limparRoteiro() {
             document.getElementById("inputData").value = "";
             document.getElementById("output").innerHTML = "";
@@ -442,13 +482,6 @@
             let modal = document.getElementById("modal");
             modal.style.display = "none";
         }
-
-        // Mostrar botão de retorno ao acessar links externos
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('backBtn').style.display = 'block';
-            });
-        });
     </script>
 </body>
 </html>
