@@ -99,7 +99,7 @@
         }
 
         .atendimento.concluido {
-            background: #2ecc71;
+            background: #2ecc71; /* Verde para atendimentos concluídos */
         }
 
         .horario {
@@ -108,6 +108,7 @@
             font-size: 20px;
         }
 
+        /* Estilização dos botões de navegação */
         nav {
             margin-bottom: 20px;
             display: flex;
@@ -130,6 +131,7 @@
             background: #2980b9;
         }
 
+        /* Estilização do menu suspenso */
         .dropbtn {
             background-color: #3498db;
             color: white;
@@ -178,6 +180,7 @@
             display: block;
         }
 
+        /* Botão do WhatsApp */
         .whatsapp-btn {
             display: inline-block;
             padding: 10px 15px;
@@ -193,10 +196,12 @@
             background: #1da851;
         }
 
+        /* Checkbox de concluído */
         .concluido-checkbox {
             margin-top: 15px;
         }
 
+        /* Modal para links externos */
         .modal {
             display: none;
             position: fixed;
@@ -228,15 +233,16 @@
             cursor: pointer;
         }
 
+        /* Estilização dos botões dos motoboys */
         .motoboy-selector {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 10px; /* Espaçamento entre as linhas */
         }
         .motoboy-line {
             display: flex;
-            gap: 15px;
+            gap: 15px; /* Espaçamento entre os botões */
         }
         .motoboy-btn {
             background: #2f3640;
@@ -248,9 +254,10 @@
             transition: 0.3s;
         }
         .motoboy-btn.selecionado {
-            background: #27ae60;
+            background: #27ae60; /* Verde para motoboys selecionados */
         }
 
+        /* Estilização do botão "Abrir no Maps" */
         .maps-btn {
          display: inline-block;
          padding: 10px 15px;
@@ -262,182 +269,6 @@
          transition: 0.3s;
          } 
     </style>
-    <!-- Adicione o SDK do Firebase v9 -->
-    <script type="module">
-        // Importações do Firebase v9
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-
-        // Configuração do Firebase
-        const firebaseConfig = {
-        apiKey: "AIzaSyCqZuuO_IPimmS4LryUDQUOQiRWzXJA0vE",
-        authDomain: "beep-59458.firebaseapp.com",
-        projectId: "beep-59458",
-        storageBucket: "beep-59458.firebasestorage.app",
-        messagingSenderId: "404180722329",
-        appId: "1:404180722329:web:03629114e0a435263f8e08",
-        measurementId: "G-LE02G3CN6Z"
-        };
-
-        // Inicialize o Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Contatos dos motoboys
-        const contatosMotoboys = {
-            "Caique": "5511967268225",
-            "Grazy": "5511957540503",
-            "Jonas": "5511949479030",
-            "Lucas": "5511998969780",
-            "Max": "5511989321702",
-            "Renato": "5511986490822",
-            "Wellington": "5511981858931"
-        };
-
-        // Motoboys selecionados
-        let motoboysSelecionados = [];
-
-        // Função para selecionar motoboy
-        window.selecionarMotoboy = function(nome) {
-            const botao = document.querySelector(`.motoboy-btn[data-nome='${nome}']`);
-            if (motoboysSelecionados.includes(nome)) {
-                motoboysSelecionados = motoboysSelecionados.filter(m => m !== nome);
-                botao.classList.remove('selecionado');
-            } else {
-                motoboysSelecionados.push(nome);
-                botao.classList.add('selecionado');
-            }
-        };
-
-        // Função para gerar roteiro
-        window.gerarRoteiro = async function() {
-            let inputText = document.getElementById("inputData").value.trim();
-            if (!inputText) return alert("Cole os agendamentos antes de gerar o roteiro.");
-            if (motoboysSelecionados.length === 0) return alert("Selecione pelo menos um motoboy.");
-            
-            let linhas = inputText.split("\n\n").map(l => l.trim()).filter(l => l !== "");
-            let atendimentos = linhas.map(l => {
-                let horario = l.match(/\d{2}:\d{2}/)[0];
-                let enderecoMatch = l.match(/Endereço: (.*)/);
-                let endereco = enderecoMatch ? enderecoMatch[1] : "";
-                return { horario, detalhes: l, endereco };
-            }).sort((a, b) => a.horario.localeCompare(b.horario));
-            
-            let motoboyRoutes = {};
-            let index = 0;
-            for (let atendimento of atendimentos) {
-                let motoboy = motoboysSelecionados[index % motoboysSelecionados.length];
-                if (!motoboyRoutes[motoboy]) motoboyRoutes[motoboy] = [];
-                motoboyRoutes[motoboy].push(atendimento);
-                index++;
-            }
-
-            // Salvar as rotas no Firebase para cada motoboy
-            for (let motoboy in motoboyRoutes) {
-                const docRef = await addDoc(collection(db, "rotas"), {
-                    motoboy: motoboy,
-                    rota: motoboyRoutes[motoboy],
-                    timestamp: new Date()
-                });
-
-                const url = `https://seusite.com/max.html?id=${docRef.id}`;
-                console.log("URL gerada:", url);
-
-                // Exibir a URL para o usuário copiar
-                document.getElementById("linkGerado").innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
-            }
-
-            // Exibir as rotas na página
-            exibirRotas(motoboyRoutes);
-        };
-
-        // Função para exibir rotas na página
-        function exibirRotas(motoboyRoutes) {
-            let outputDiv = document.getElementById("output");
-            outputDiv.innerHTML = "";
-            for (let motoboy in motoboyRoutes) {
-                let motoboyHTML = `<div class='result'><h3>${motoboy}</h3>`;
-                let whatsappMessage = `Rotas de ${motoboy}:\n\n`;
-                
-                motoboyRoutes[motoboy].forEach((rota, i) => {
-                    motoboyHTML += `<div class='atendimento' id='atendimento-${motoboy}-${i}'>
-                        <p><span class='horario'>${rota.horario}</span><br>${rota.detalhes.replace(/\n/g, '<br>')}</p>
-                        <a class='maps-btn' href='https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rota.endereco)}' target='_blank'>Abrir no Maps</a>
-                        <div class='concluido-checkbox'>
-                            <label>
-                                <input type='checkbox' onchange='marcarConcluido("${motoboy}-${i}")'> Concluído
-                            </label>
-                        </div>
-                    </div>`;
-                    whatsappMessage += `${rota.horario} - ${rota.detalhes}\n\n`;
-                });
-                
-                motoboyHTML += `<button class='whatsapp-btn' onclick="compartilharWhatsApp('${contatosMotoboys[motoboy]}', '${whatsappMessage.replace(/\n/g, '%0A')}')">Enviar rota para ${motoboy}</button>`;
-                motoboyHTML += `</div>`;
-                outputDiv.innerHTML += motoboyHTML;
-            }
-        }
-
-        // Função para carregar rotas ao abrir a página
-        async function carregarRotas() {
-            const rotaId = new URLSearchParams(window.location.search).get("id");
-            if (rotaId) {
-                const docRef = doc(db, "rotas", rotaId);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    const dados = docSnap.data();
-                    console.log("Rota carregada:", dados);
-                    document.getElementById("infoRota").innerHTML = `
-                        <h2>Rota de ${dados.motoboy}</h2>
-                        <p>${JSON.stringify(dados.rota)}</p>
-                    `;
-                } else {
-                    console.log("Rota não encontrada.");
-                }
-            }
-        }
-
-        // Carregar rotas ao abrir a página
-        carregarRotas();
-
-        // Função para marcar atendimento como concluído
-        window.marcarConcluido = function(id) {
-            let atendimento = document.getElementById(`atendimento-${id}`);
-            if (atendimento) {
-                atendimento.classList.toggle('concluido');
-            }
-        };
-
-        // Função para compartilhar rota via WhatsApp
-        window.compartilharWhatsApp = function(contato, mensagem) {
-            let url = `https://wa.me/${contato}?text=${mensagem}`;
-            window.open(url, '_blank');
-        };
-
-        // Função para limpar o roteiro
-        window.limparRoteiro = function() {
-            document.getElementById("inputData").value = "";
-            document.getElementById("output").innerHTML = "";
-            motoboysSelecionados = [];
-            document.querySelectorAll('.motoboy-btn').forEach(botao => {
-                botao.classList.remove('selecionado');
-            });
-        };
-
-        // Modal para links externos
-        window.abrirModal = function(event) {
-            event.preventDefault();
-            let modal = document.getElementById("modal");
-            let iframe = document.getElementById("modal-iframe");
-            iframe.src = event.target.href;
-            modal.style.display = "flex";
-        };
-
-        window.fecharModal = function() {
-            let modal = document.getElementById("modal");
-            modal.style.display = "none";
-        };
-    </script>
 </head>
 <body>
     <h1>Roteiro Vila Olímpia</h1>
@@ -467,6 +298,7 @@
     <textarea id="inputData" placeholder="Cole os agendamentos aqui..."></textarea>
     
     <div class="motoboy-selector">
+        <p><mark style="background-color: #3498db; color: white; padding: 2px 5px; border-radius: 4px;">Selecione os motoboys</mark></p>
         <div class="motoboy-line">
             <div class="motoboy-btn" data-nome="Caique" onclick="selecionarMotoboy('Caique')">Caique</div>
             <div class="motoboy-btn" data-nome="Grazy" onclick="selecionarMotoboy('Grazy')">Grazy</div>
@@ -486,8 +318,6 @@
     </div>
     
     <div id="output"></div>
-    <div id="linkGerado"></div>
-    <div id="infoRota"></div>
 
    <!-- Botão do WhatsApp para o grupo dos motoboys -->
    <a class="whatsapp-btn" href="https://chat.whatsapp.com/CdXmHMfS0fT0yIwKNJdTGK" target="_blank">Grupo WhatsApp</a>
@@ -497,6 +327,129 @@
         <div class="modal-close" onclick="fecharModal()">Fechar</div>
         <iframe id="modal-iframe" src=""></iframe>
     </div>
+    
+    <script>
+        // Contatos dos motoboys
+        const contatosMotoboys = {
+            "Caique": "5511967268225",
+            "Grazy": "5511957540503",
+            "Jonas": "5511949479030",
+            "Lucas": "5511998969780",
+            "Max": "5511989321702",
+            "Renato": "5511986490822",
+            "Wellington": "5511981858931"
+        };
+
+        // Motoboys selecionados
+        let motoboysSelecionados = [];
+
+        function selecionarMotoboy(nome) {
+            const botao = document.querySelector(.motoboy-btn[data-nome='${nome}']);
+            if (motoboysSelecionados.includes(nome)) {
+                motoboysSelecionados = motoboysSelecionados.filter(m => m !== nome);
+                botao.classList.remove('selecionado');
+            } else {
+                motoboysSelecionados.push(nome);
+                botao.classList.add('selecionado');
+            }
+        }
+
+        function gerarRoteiro() {
+            let inputText = document.getElementById("inputData").value.trim();
+            if (!inputText) return alert("Cole os agendamentos antes de gerar o roteiro.");
+            if (motoboysSelecionados.length === 0) return alert("Selecione pelo menos um motoboy.");
+            
+            let linhas = inputText.split("\n\n").map(l => l.trim()).filter(l => l !== "");
+            let atendimentos = linhas.map(l => {
+                let horario = l.match(/\d{2}:\d{2}/)[0];
+                let enderecoMatch = l.match(/Endereço: (.*)/);
+                let endereco = enderecoMatch ? enderecoMatch[1] : ""; // Captura o endereço após "Endereço:"
+                return { horario, detalhes: l, endereco };
+            }).sort((a, b) => a.horario.localeCompare(b.horario));
+            
+            let motoboyRoutes = {};
+            let index = 0;
+            for (let atendimento of atendimentos) {
+                let motoboy = motoboysSelecionados[index % motoboysSelecionados.length];
+                if (!motoboyRoutes[motoboy]) motoboyRoutes[motoboy] = [];
+                motoboyRoutes[motoboy].push(atendimento);
+                index++;
+            }
+
+            // Salvar as rotas no localStorage para cada motoboy
+            for (let motoboy in motoboyRoutes) {
+                localStorage.setItem(rotas_${motoboy}, JSON.stringify(motoboyRoutes[motoboy]));
+            }
+
+            // Exibir as rotas na página
+            let outputDiv = document.getElementById("output");
+            outputDiv.innerHTML = "";
+            for (let motoboy in motoboyRoutes) {
+                let motoboyHTML = <div class='result'><h3>${motoboy}</h3>;
+                let whatsappMessage = Rotas de ${motoboy}:\n\n; // Mensagem para o WhatsApp
+                
+                motoboyRoutes[motoboy].forEach((rota, i) => {
+                    motoboyHTML += `<div class='atendimento' id='atendimento-${motoboy}-${i}'>
+                        <p><span class='horario'>${rota.horario}</span><br>${rota.detalhes.replace(/\n/g, '<br>')}</p>
+                        <a class='maps-btn' href='https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(rota.endereco)}' target='_blank'>Abrir no Maps</a>
+                        <div class='concluido-checkbox'>
+                            <label>
+                                <input type='checkbox' onchange='marcarConcluido("${motoboy}-${i}")'> Concluído
+                            </label>
+                        </div>
+                    </div>`;
+                    whatsappMessage += ${rota.horario} - ${rota.detalhes}\n\n; // Adiciona a rota à mensagem
+                });
+                
+                // Botão do WhatsApp no final da rota do motoboy
+                motoboyHTML += <button class='whatsapp-btn' onclick="compartilharWhatsApp('${contatosMotoboys[motoboy]}', '${whatsappMessage.replace(/\n/g, '%0A')}')">Enviar rota para ${motoboy}</button>;
+                motoboyHTML += </div>;
+                outputDiv.innerHTML += motoboyHTML;
+            }
+        }
+
+        function marcarConcluido(id) {
+            let atendimento = document.getElementById(atendimento-${id});
+            if (atendimento) {
+                atendimento.classList.toggle('concluido');
+            }
+        }
+
+        function compartilharWhatsApp(contato, mensagem) {
+            let url = https://wa.me/${contato}?text=${mensagem};
+            window.open(url, '_blank');
+        }
+        
+        function limparRoteiro() {
+            document.getElementById("inputData").value = "";
+            document.getElementById("output").innerHTML = "";
+            motoboysSelecionados = [];
+            document.querySelectorAll('.motoboy-btn').forEach(botao => {
+                botao.classList.remove('selecionado');
+            });
+        }
+
+        // Modal para links externos
+        function abrirModal(event) {
+            event.preventDefault();
+            let modal = document.getElementById("modal");
+            let iframe = document.getElementById("modal-iframe");
+            iframe.src = event.target.href;
+            modal.style.display = "flex";
+        }
+
+        function fecharModal() {
+            let modal = document.getElementById("modal");
+            modal.style.display = "none";
+        }
+
+        // Mostrar botão de retorno ao acessar links externos
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('backBtn').style.display = 'block';
+            });
+        });
+    </script>
 </body>
 </html>
 
